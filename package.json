@@ -1,0 +1,32 @@
+{
+  "name": "game-bars-lyon",
+  "version": "1.0.0",
+  "description": "This backend project show gaming bars in Lyon and allow users to comment and give them a note",
+  "main": "app/index.ts",
+  "scripts": {
+    "dev": "tsx app/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jeremy-Cloarec/game-bars-lyon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jeremy-Cloarec/game-bars-lyon/issues"
+  },
+  "homepage": "https://github.com/Jeremy-Cloarec/game-bars-lyon#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "tsx": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
