@@ -2,4 +2,11 @@ Build docker image
 docker build -t game-bars-lyon .
 
 Running Docker Container
-docker run -it -p 9000:3000 game-bars-lyon
+docker run -it -p 3000:3000 game-bars-lyon
+
+docker ps => container still Running
+
+docker stop {id}
+
+docker compose up
+docker compose down 
