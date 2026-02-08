@@ -1,16 +1,21 @@
-FROM node:20-alpine AS builder
+# ===== Builder =====
+FROM node:20 AS builder
 WORKDIR /app
-COPY package.json /app
-RUN npm install --production
-COPY . .
 
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# ===== Runtime =====
 FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app .
-ENV NODE_ENV=production
-ENV PORT=3000
+WORKDIR /appfix : execute dist and not typescript
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
-
-RUN npm run build
 CMD ["node", "dist/index.js"]
