@@ -1,0 +1,57 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push Docker image
+        env:
+          ECR_REPOSITORY: advanced-wolf
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to ECS
+        env:
+          CLUSTER_NAME: advanced-wolf-cluster
+          SERVICE_NAME: advanced-wolf-service
+          TASK_FAMILY: myapp-api
+          IMAGE_URI: ${{ steps.login-ecr.outputs.registry }}/advanced-wolf:latest
+        run: |
+          # Créer une nouvelle révision de task definition avec l'image à jour
+          TASK_DEF=$(aws ecs register-task-definition \
+            --family $TASK_FAMILY \
+            --requires-compatibilities FARGATE \
+            --network-mode awsvpc \
+            --cpu "256" \
+            --memory "512" \
+            --execution-role-arn arn:aws:iam::526369634873:role/ecsTaskExecutionRole \
+            --container-definitions "[{\"name\":\"api\",\"image\":\"$IMAGE_URI\",\"essential\":true,\"portMappings\":[{\"containerPort\":3000,\"protocol\":\"tcp\"}]}]")
+
+          # Update du service ECS avec la nouvelle révision
+          aws ecs update-service \
+            --cluster $CLUSTER_NAME \
+            --service $SERVICE_NAME \
+            --task-definition $(echo $TASK_DEF | jq -r '.taskDefinition.taskDefinitionArn')
