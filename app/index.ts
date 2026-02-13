@@ -1,14 +1,14 @@
-import express, {Request, Response}  from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
+import router from './routes/routes';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello world !');
-});
+app.use('/', router);
 
 app.listen(port, () => {
-    console.log(`Server running at port ${process.env.API_URL}`);
+    console.log(`Server running at ${process.env.API_URL}`);
 });
+
