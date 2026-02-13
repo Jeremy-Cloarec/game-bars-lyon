@@ -50,7 +50,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="KQKX1Uo1V9ev0aR1D8ro-35" parent="1" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;" value="Advice" vertex="1">
-          <mxGeometry height="190" width="100" x="430" y="610" as="geometry" />
+          <mxGeometry height="190" width="100" x="440" y="610" as="geometry" />
         </mxCell>
         <mxCell id="KQKX1Uo1V9ev0aR1D8ro-36" parent="KQKX1Uo1V9ev0aR1D8ro-35" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="" vertex="1">
           <mxGeometry height="40" width="100" y="30" as="geometry" />
