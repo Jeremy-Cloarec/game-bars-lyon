@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
+        "target": "ES2023",
+        "module": "ESNext",
         "outDir": "./dist",
         "rootDir": "./app",
+        "moduleResolution": "bundler",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
+        "ignoreDeprecations": "6.0",
         "forceConsistentCasingInFileNames": true
     },
     "include": [
